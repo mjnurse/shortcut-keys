@@ -105,23 +105,31 @@ if [[ $gen_md_yn == y ]]; then
   sort "$sck_csv" | sed "/^ *$/d" | \
     sed 's/^"\(.*\)","\(.*\)","\(.*\)","\(.*\)"$/\1\n\2\n| \`\3\` | \4 |/' \
     > $tmp_file
-  prev_heading=""
+      prev_heading=""
   prev_subheading=""
+  echo "# Shortcut Keys"
+  echo
   while read heading; do
     read subheading
     read line
 
     if [[ "$heading" != "$prev_heading" ]]; then
       echo
-      echo "# $heading"
+      echo "## $heading"
       echo
+      if [[ "$subheading" == "" ]]; then
+        echo "| Key | Description |"
+        echo "|-----|-------------|"
+      fi
       prev_subheading=""
       prev_heading="$heading"
     fi
     if [[ "$subheading" != "$prev_subheading" ]]; then
       echo
-      echo "## $subheading"
+      echo "### $subheading"
       echo
+      echo "| Key | Description |"
+      echo "|-----|-------------|"
       prev_subheading="$subheading"
     fi
     echo "$line"
